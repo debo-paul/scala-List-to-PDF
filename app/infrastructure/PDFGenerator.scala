@@ -53,22 +53,22 @@ object PDFGenerator {
     }
     val studentRecords = <records>{ myXML }</records>
     scala.xml.XML.save(current.path.getAbsolutePath() + "/pdf/xml/studentrecords.xml", studentRecords)
-    transform()
+    transformer()
   }
 
-  def transform() {
-    
-    val xmlfile = new File(current.path.getAbsolutePath() + "/pdf/xml/studentrecords.xml")
-    val xsltfile = new File(current.path.getAbsolutePath() + "/pdf/xml/studentsstyle.xsl")
-    val pdffile = new File(current.path.getAbsolutePath() + "/pdf/xml/studentrecords.pdf")
+  def transformer() {
+
+    val xml = new File(current.path.getAbsolutePath() + "/pdf/xml/studentrecords.xml")
+    val xslt = new File(current.path.getAbsolutePath() + "/pdf/xml/studentsstyle.xsl")
+    val pdf = new File(current.path.getAbsolutePath() + "/pdf/xml/studentrecords.pdf")
     val xslt2fo = new File(current.path.getAbsolutePath() + "/pdf/xml/xslt2fo.fo")
-    
+
     val fopFactory = FopFactory.newInstance()
     val out = new java.io.FileOutputStream(xslt2fo)
-    val pdfOutput = new BufferedOutputStream(new FileOutputStream(pdffile))
+    val pdfOutput = new BufferedOutputStream(new FileOutputStream(pdf))
     val factory = TransformerFactory.newInstance()
-    val transformer = factory.newTransformer(new StreamSource(xsltfile))
-    val source = new StreamSource(xmlfile)
+    val transformer = factory.newTransformer(new StreamSource(xslt))
+    val source = new StreamSource(xml)
     val output = new StreamResult(out)
     transformer.transform(source, output)
     val fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);

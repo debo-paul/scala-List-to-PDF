@@ -8,7 +8,7 @@ object Application extends Controller {
 
   def index = Action {
     PDFGenerator.generatePDF()
-    Ok(views.html.index("pdf generated"))
+    Ok("pdf generated")
   }
 
 }
